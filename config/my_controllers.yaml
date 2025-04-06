@@ -1,0 +1,38 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 30
+
+    # Differential Drive Controller
+    diff_cont:
+      type: diff_drive_controller/DiffDriveController
+
+    # Joint State Broadcaster
+    joint_broad:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+diff_cont:
+  ros__parameters:
+    # Loop
+    publish_rate: 50.0
+    cmd_vel_timeout: 0.5
+    # Frames
+    base_frame_id: base_link
+    odom_frame_id: odom
+    enable_odom_tf: true # Decides if odom -> base_link transform is published 
+    # Wheel info
+    left_wheel_names: ['left_wheel_joint']
+    right_wheel_names: ['right_wheel_joint']
+    wheels_per_side: 1
+    wheel_radius: 0.0775
+    wheel_separation: 0.338
+    # Feedback
+    open_loop: false        # Decided how to calculate odometry
+    position_feedback: true # Is there position feedback from hardware
+    use_stamped_vel: false  # Stamped vel if true
+    velocity_rolling_window_size: 10 # used to calculate odometry
+    # Limited velocity
+    publish_limited_velocity: false  
+    
+# joint_broad:
+#   ros__parameters:
+#     use_local_topics: false
