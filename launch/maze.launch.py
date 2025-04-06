@@ -11,7 +11,7 @@ from launch.actions import IncludeLaunchDescription, TimerAction, RegisterEventH
 def generate_launch_description():
 
     # Get the package name
-    package_name='mower_bot' 
+    package_name='maze_bot' 
 
     # Launches robot state publisher configured for real-time use.
     rsp = IncludeLaunchDescription(

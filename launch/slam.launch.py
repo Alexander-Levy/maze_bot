@@ -9,7 +9,7 @@ from ament_index_python.packages import get_package_share_directory
 def generate_launch_description():
     
     # Package name
-    package_name='mower_bot'
+    package_name='maze_bot'
 
     # Launch configurations
     use_sim_time = LaunchConfiguration('use_sim_time')

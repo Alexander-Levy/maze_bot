@@ -11,7 +11,7 @@ from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, Grou
 def generate_launch_description():
 
     # Package name
-    package_name='mower_bot' 
+    package_name='maze_bot' 
 
     # Launch configurations
     headless = LaunchConfiguration('headless')
@@ -21,7 +21,7 @@ def generate_launch_description():
     nav = LaunchConfiguration('nav')
     
     # Path to default world 
-    world_path = os.path.join(get_package_share_directory(package_name),'worlds/box.world')
+    world_path = os.path.join(get_package_share_directory(package_name),'worlds/empty.world')
     
     # Launch Arguments
     declare_world = DeclareLaunchArgument(
@@ -92,7 +92,7 @@ def generate_launch_description():
     )
     
     # Launch Rviz with pre-made view
-    rviz_config_file = os.path.join(get_package_share_directory(package_name), 'config', 'mower.rviz')
+    rviz_config_file = os.path.join(get_package_share_directory(package_name), 'config', 'bot.rviz')
     rviz2 = GroupAction(
         condition=IfCondition(rviz),
         actions=[Node(

@@ -1,12 +1,6 @@
-# Autonomous Lawn Mower Diferential Drive Robot 
+# Autonomous Maze Solver Diferential Drive Robot 
 
 ## Introduction
-
-This is the code for my thesis in university. The proyect consist of an autonomous robot that can: 
-- Map its working area 
-- Locate itself within that area 
-- Plan the best path to mow the lawn 
-- Calculate the appropiate wheel velocities to achieve this
 
 This is a ROS2 based project that is built to work on: 
 
@@ -14,7 +8,7 @@ This is a ROS2 based project that is built to work on:
  - [ROS2 Humble Hawksbill](https://docs.ros.org/en/rolling/Releases/Release-Humble-Hawksbill.html)
  - [Gazebo Fortress](https://gazebosim.org/docs/fortress/ros_installation/)
 
-The processing of data is distributed between a Raspberry Pi running on the lawn mower and a laptop running on the same network
+The processing of data is distributed between a Raspberry Pi running on the robot and a laptop running on the same network
 
 ## How the package is organized
 
@@ -29,27 +23,27 @@ The processing of data is distributed between a Raspberry Pi running on the lawn
 ## Usage
 The package is designed with versitility in mind. It provides three main launch files to activate all of it funtionality both in simulation and real world use cases, these are:
 ```bash
-ros2 launch mower_bot sim.launch.py      / launches the simulation
-ros2 launch mower_bot mower.launch.py    / launches the control system of the mower
-ros2 launch mower_bot monitor.launch.py  / launches rviz, slam and navigation
+ros2 launch maze_bot sim.launch.py      / launches the simulation
+ros2 launch maze_bot maze.launch.py    / launches the control system of the robot
+ros2 launch maze_bot monitor.launch.py  / launches rviz, slam and navigation
 ```
 We will go over these in more detail in the following sections. 
 
 ### Simulation
 The simulation can be run with the following command:
 ```bash
-ros2 launch mower_bot sim.launch.py 
+ros2 launch maze_bot sim.launch.py 
 ```
 
 The simulation launch file offers serveral launch configurations to modify its behaviour, this is useful for testing. You can decide if the simulation(Gazebo) is visualized using the `headless` launch argument, the `world` launch argument lets you provide a path to a custom world, the `rviz` launch argument can be used to open rviz2 alongside the simulation, the `slam` launch argument can be used to decide if the robot maps its enviroment, and the `nav` launch argument can be used to automatically launch the navigation stack. Example with custom launch arguments:
 ```bash
-ros2 launch mower_bot sim.launch.py world:=<path_to_world> headless:=False rviz:=True slam:=True nav:=True
+ros2 launch maze_bot sim.launch.py world:=<path_to_world> headless:=False rviz:=True slam:=True nav:=True
 ```
 
 By default the box world is loaded, the simulation is not visualized, and rviz2, slam and the navigation stack are launched as well. All of the launch configurations available are listed below:
 ```bash
 Config      Options            Default                           
-world:=     <path_to_world>    /src/mower_bot/worlds/box.world 
+world:=     <path_to_world>    /src/maze_bot/worlds/empty.world 
 headless:=  True/False         True
 rviz:=      True/False         True
 slam:=      True/False         True
@@ -59,17 +53,17 @@ nav:=       True/False         True
 ### Real World Use
 The robot can be initialized with the following command on the Rasberry Pi. This will launch the robot state publisher, the joint state broadcaster, the rplidar driver, the controller manager and differential drive controller. It provides no launch configurations.
 ```bash
-ros2 launch mower_bot mower.launch.py 
+ros2 launch maze_bot maze.launch.py 
 ```
 
 To monitor, control and launch the high level interfaces of the robot we can use the following command on the Laptop. This is will open up rviz, launch the slam and navigation stacks and allow us to tele-operate the robot with a controller.
 ```bash
-ros2 launch mower_bot monitor.launch.py 
+ros2 launch maze_bot monitor.launch.py 
 ```
 
 You can even use the monitor launch file in simulation by setting the `use_sim_time` launch argument to true. It also has `rviz`, `slam` and `nav` launch arguments, similar to the simulation launch file. This gives you great flexibility, for example you could use this to only open rviz2 and the controller tele-op with the real robot with the command bellow:
 ```bash
-ros2 launch mower_bot monitor.launch.py use_sim_time:=false rviz:=True slam:=False nav:=False
+ros2 launch maze_bot monitor.launch.py use_sim_time:=false rviz:=True slam:=False nav:=False
 ```
 
 By default use_sim_time is set to false, rviz, slam and nav are set to True. All of the launch configurations available are listed below:
@@ -81,11 +75,6 @@ slam:=          True/False         True
 nav:=           True/False         True
 ```
 
-### Coverage Navigator
-The high level coverage planning and control tasks are handled by the [Coverage Navigator](https://github.com/Alexander-Levy/coverage_navigator) package. More info there. You can launch the main funtionality of the package with the following command
-```bash
-ros2 run coverage_navigator test_coverage
-```
 
 ## Dependencies
 Since the load is distributed between two machines, some packages are only used by one of them so its not necesarry to install everything on both machines. I will make it clear which pacakges are used by what.
@@ -114,42 +103,6 @@ sudo apt install -y                         \
     ros-humble-gazebo-ros2-control          \
     ros-humble-joint-state-publisher-gui    \
 ```
-#### Fields2Cover and Opennav_Coverage 
-First go to your work space or create if you have not already
-```bash
-cd ~
-mkdir -p <path_to_your_workspace>/src
-cd <path_to_your_workspace>/src
-```
-Then download the following files
-```bash
-git clone https://github.com/Fields2Cover/Fields2Cover.git -b v1.2.1
-git clone https://github.com/open-navigation/opennav_coverage.git -b humble
-```
-Go to the main project folder of Fields2Cover and build the library:
-```bash
-cd ~/<path_to_your_workspace>/src/Fields2Cover
-mkdir -p build; 
-cd build; cmake -DCMAKE_BUILD_TYPE=Release ..; 
-make -j$(nproc); 
-sudo make install;
-```
-Finally, get back to the main project folder, build, source & test
-```bash
-cd ~/<path_to_your_workspace>
-colcon build --symlink-install
-source install/setup.bash
-ros2 launch opennav_coverage_demo coverage_demo_launch.py
-```
-
-#### Coverage Navigator
-Go into your workspace, clone the files and build 
-```bash
-cd ~/<path_to_your_workspace>/src
-git clone https://github.com/Alexander-Levy/coverage_navigator.git 
-cd ..
-colcon build --symlink-install
-```
 
 ### Rasberry Pi dependency only: 
 #### This Package
@@ -169,26 +122,23 @@ colcon build --symlink-install
 Go into your workspace, clone the files and build
 ```bash
 cd ~/<path_to_your_workspace>/src
-git clone git@github.com:babakhani/rplidar_ros2.git
+git clone -b ros2 https://github.com/Slamtec/rplidar_ros.git
 cd ..
 colcon build --symlink-install
 source ./install/setup.bash
-```
-Make sure that the package exist
-```bash
-ros2 pkg list | grep rplidar
 ```
 
 ## Install
 To use this package please download all of the necesary dependencies first and then follow these steps
 ```bash
 cd ~/<path_to_your_workspace>/src
-git clone https://github.com/Alexander-Levy/mower_bot.git 
+git clone https://github.com/Alexander-Levy/maze_bot.git 
 cd ..
 colcon build --symlink-install
 ```
+
 Launch the simulation to test the package
 ```bash
 source ./install/setup.bash
-ros2 launch mower_bot sim.launch.py 
+ros2 launch maze_bot sim.launch.py 
 ```

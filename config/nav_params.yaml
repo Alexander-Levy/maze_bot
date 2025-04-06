@@ -1,33 +1,3 @@
-coverage_server:
-  ros__parameters:
-    # General parameters
-    use_sim_time: True
-    action_server_result_timeout: 1000.0
-    coordinates_in_cartesian_frame: true
-
-    # Robot parameters
-    robot_width: 0.4
-    operation_width: 0.3
-    min_turning_radius: 0.1
-    linear_curv_change: 200.0
-
-    # Headland Generator parameter
-    default_headland_width: 0.1
-
-    # Swath Generator parameters
-    default_swath_angle_type: "BRUTE_FORCE" 
-    default_swath_type: "COVERAGE" 
-    default_step_angle: 0.017 
-
-    # Route Planner Parameters
-    default_route_type: "BOUSTROPHEDON" 
-    default_turn_point_distance: 0.1 
-
-    # Path Planner parameters
-    default_allow_overlap: false 
-    default_path_continuity_type: "CONTINUOUS" 
-    default_path_type: "DUBIN"
-
 bt_navigator:
   ros__parameters:
     use_sim_time: True
@@ -96,8 +66,6 @@ bt_navigator:
       - nav2_assisted_teleop_cancel_bt_node
       - nav2_drive_on_heading_cancel_bt_node
       - nav2_is_battery_charging_condition_bt_node
-      - opennav_compute_complete_coverage_action_bt_node
-      - opennav_cancel_complete_coverage_action_bt_node
  
 controller_server:
   ros__parameters:

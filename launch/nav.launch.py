@@ -12,7 +12,7 @@ from launch.actions import DeclareLaunchArgument, SetEnvironmentVariable
 def generate_launch_description():
 
     # Package name
-    package_name = get_package_share_directory('mower_bot')
+    package_name = get_package_share_directory('maze_bot')
 
     # Launch configurations    
     autostart = LaunchConfiguration('autostart')
@@ -26,8 +26,7 @@ def generate_launch_description():
                        'behavior_server',
                        'bt_navigator',
                        #'velocity_smoother',
-                       'waypoint_follower',
-                       'coverage_server']
+                       'waypoint_follower']
 
     # Topic remappings
     remappings = [('/tf', 'tf'),

@@ -11,7 +11,7 @@ from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, Grou
 def generate_launch_description():
 
     # Package name
-    package_name='mower_bot' 
+    package_name='maze_bot' 
 
     # Launch configurations
     use_sim_time = LaunchConfiguration('use_sim_time')
@@ -63,7 +63,7 @@ def generate_launch_description():
     )
         
     # Launch rviz with pre-made view
-    rviz_config_file = os.path.join(get_package_share_directory(package_name), 'config', 'mower.rviz')
+    rviz_config_file = os.path.join(get_package_share_directory(package_name), 'config', 'bot.rviz')
     rviz2 = GroupAction(
         condition=IfCondition(rviz),
         actions=[Node(
