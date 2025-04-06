@@ -33,6 +33,3 @@ diff_cont:
     # Limited velocity
     publish_limited_velocity: false  
     
-# joint_broad:
-#   ros__parameters:
-#     use_local_topics: false
