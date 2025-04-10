@@ -23,8 +23,8 @@ diff_cont:
     left_wheel_names: ['left_wheel_joint']
     right_wheel_names: ['right_wheel_joint']
     wheels_per_side: 1
-    wheel_radius: 0.0775
-    wheel_separation: 0.338
+    wheel_radius: 0.0325
+    wheel_separation: 0.155
     # Feedback
     open_loop: false        # Decided how to calculate odometry
     position_feedback: true # Is there position feedback from hardware
